@@ -1,0 +1,4 @@
+name: Core21
+version: '1.0-SNAPSHOT'
+main: dev.kacperm.core21.Core
+api-version: '1.21'

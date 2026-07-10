@@ -1,0 +1,5 @@
+rootProject.name = 'HCTeams'
+
+include(":Shared")
+include(":Core8")
+include(":Core21")
