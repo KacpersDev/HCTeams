@@ -1,6 +1,8 @@
 package dev.kacperm.core8;
 
+import dev.kacperm.core8.profile.ProfileManager;
 import dev.kacperm.shared.SharedPlugin;
+import dev.kacperm.shared.mongo.MongoManager;
 import dev.kacperm.shared.utils.config.Config;
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,6 +18,9 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     private Config configuration, language;
 
+    private MongoManager mongoManager;
+    private ProfileManager profileManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -23,6 +28,11 @@ public final class Core extends JavaPlugin implements SharedPlugin {
         this.loadConfigurations();
         this.loadListeners();
         this.loadCommands();
+
+        this.mongoManager = new MongoManager(
+                getConfiguration().getConfiguration().getString("mongo.uri"),
+                getConfiguration().getConfiguration().getString("mongo.database"));
+        this.profileManager = new ProfileManager();
     }
 
     @Override
