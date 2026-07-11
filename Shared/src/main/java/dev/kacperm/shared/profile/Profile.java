@@ -27,6 +27,9 @@ public class Profile {
     private long startingTimer;
     private long pvpTimer;
 
+    private long spawnTag;
+    private long enderPearl;
+
     public void increaseDeaths() {
         this.deaths += 1;
     }

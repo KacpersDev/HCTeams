@@ -5,4 +5,5 @@ public interface SharedPlugin {
     void loadConfigurations();
     void loadCommands();
     void loadListeners();
+    void loadRunnables();
 }

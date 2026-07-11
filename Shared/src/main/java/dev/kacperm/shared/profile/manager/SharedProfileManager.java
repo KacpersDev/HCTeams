@@ -25,7 +25,7 @@ public interface SharedProfileManager {
 
         Profile profile = Profile.builder()
                 .uuid(uuid)
-                .team(UUID.fromString(document.getString("team")))
+                .team(document.getString("team") == null ? null : UUID.fromString(document.getString("team")))
                 .balance(document.getInteger("balance"))
                 .kills(document.getInteger("kills"))
                 .deaths(document.getInteger("deaths"))
@@ -46,7 +46,7 @@ public interface SharedProfileManager {
     default void saveProfile(Profile profile) {
         Document document = new Document();
         document.put("uuid", profile.getUuid().toString());
-        document.put("team", profile.getTeam().toString());
+        document.put("team", profile.getTeam() == null ? null : profile.getTeam().toString());
         document.put("balance", profile.getBalance());
         document.put("kills", profile.getKills());
         document.put("deaths", profile.getDeaths());

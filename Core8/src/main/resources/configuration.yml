@@ -1,8 +1,15 @@
 mongo:
   uri: ""
-  database: ""
+  database: "hcteams"
 
 default-balance: 1000
 timers:
   starting-timer: 3600
   pvp-timer: 1800
+
+scoreboard:
+  title: "&6&lHCTeams &c[Map 17]"
+  lines:
+    - "&7&m--------------------"
+    - ""
+    - "&7&m--------------------"

@@ -25,6 +25,7 @@ dependencies {
     compileOnly "org.github.paperspigot:paperspigot-api:1.7.10-R0.1-SNAPSHOT"
     implementation(platform("org.mongodb:mongodb-driver-bom:5.6.4"))
     implementation("org.mongodb:mongodb-driver-sync")
+    implementation 'fr.mrmicky:fastboard:2.2.0'
 }
 def targetJavaVersion = 8
 java {
@@ -34,20 +35,13 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release.set(targetJavaVersion)
-    }
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
-    }
 }
 
 processResources {
