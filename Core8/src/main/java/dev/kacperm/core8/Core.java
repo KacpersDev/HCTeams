@@ -2,6 +2,7 @@ package dev.kacperm.core8;
 
 import dev.kacperm.core8.profile.ProfileManager;
 import dev.kacperm.shared.SharedPlugin;
+import dev.kacperm.shared.config.ProfileConfig;
 import dev.kacperm.shared.listener.ProfileListener;
 import dev.kacperm.shared.mongo.MongoManager;
 import dev.kacperm.shared.utils.config.Config;
@@ -64,7 +65,7 @@ public final class Core extends JavaPlugin implements SharedPlugin {
     @Override
     public void loadListeners() {
         Arrays.asList(
-                new ProfileListener(this, profileManager)
+                new ProfileListener(this, profileManager, configuration)
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 }

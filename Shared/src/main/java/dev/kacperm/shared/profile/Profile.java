@@ -24,4 +24,14 @@ public class Profile {
     private long firstJoin;
     private long playTime;
     private long currentSession;
+    private long startingTimer;
+    private long pvpTimer;
+
+    public void increaseDeaths() {
+        this.deaths += 1;
+    }
+
+    public void increaseKills() {
+        this.kills += 1;
+    }
 }

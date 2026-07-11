@@ -36,7 +36,9 @@ public interface SharedProfileManager {
                 .staff(document.getBoolean("staff"))
                 .reclaimed(document.getBoolean("reclaimed"))
                 .firstJoin(document.getLong("firstJoin"))
-                .playTime(document.getLong("playTime")).build();
+                .playTime(document.getLong("playTime"))
+                .startingTimer(document.getLong("startingTimer"))
+                .pvpTimer(document.getLong("pvpTimer")).build();
 
         return Optional.of(profile);
     }
@@ -56,6 +58,8 @@ public interface SharedProfileManager {
         document.put("reclaimed", profile.isReclaimed());
         document.put("firstJoin", profile.getFirstJoin());
         document.put("playTime", profile.getPlayTime());
+        document.put("startingTimer", profile.getStartingTimer());
+        document.put("pvpTimer", profile.getPvpTimer());
 
         profilesCollection().replaceOne(Filters.eq("uuid", profile.getUuid().toString()),
                 document, new ReplaceOptions().upsert(true));
