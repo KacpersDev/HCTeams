@@ -23,20 +23,19 @@ public interface SharedProfileManager {
             return Optional.empty();
         }
 
-        Profile profile = new Profile(
-                uuid,
-                UUID.fromString(document.getString("team")),
-                document.getInteger("balance"),
-                document.getInteger("kills"),
-                document.getInteger("deaths"),
-                document.getInteger("lives"),
-                document.getLong("lastDeath"),
-                document.getLong("lastLogout"),
-                document.getBoolean("frozen"),
-                document.getBoolean("staff"),
-                document.getLong("firstJoin"),
-                document.getLong("playTime")
-        );
+        Profile profile = Profile.builder()
+                .uuid(uuid)
+                .team(UUID.fromString(document.getString("team")))
+                .balance(document.getInteger("balance"))
+                .kills(document.getInteger("kills"))
+                .deaths(document.getInteger("deaths"))
+                .lives(document.getInteger("lives"))
+                .lastDeath(document.getLong("lastDeath"))
+                .lastLogout(document.getLong("lastLogout"))
+                .frozen(document.getBoolean("frozen"))
+                .staff(document.getBoolean("staff"))
+                .firstJoin(document.getLong("firstJoin"))
+                .playTime(document.getLong("playTime")).build();
 
         return Optional.of(profile);
     }
@@ -62,5 +61,9 @@ public interface SharedProfileManager {
 
     default CompletableFuture<Optional<Profile>> getProfile(UUID uuid) {
         return CompletableFuture.supplyAsync(() -> loadProfile(uuid));
+    }
+
+    default void onDisable() {
+        profiles().values().forEach(this::saveProfile);
     }
 }

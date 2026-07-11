@@ -34,6 +34,8 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     @Override
     public void onDisable() {
+        profileManager.onDisable();
+
         instance = null;
     }
 

@@ -1,12 +1,12 @@
 package dev.kacperm.shared.profile;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
+@Builder
 public class Profile {
 
     private UUID uuid;
@@ -22,4 +22,5 @@ public class Profile {
 
     private long firstJoin;
     private long playTime;
+    private long currentSession;
 }

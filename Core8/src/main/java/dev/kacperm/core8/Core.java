@@ -2,13 +2,16 @@ package dev.kacperm.core8;
 
 import dev.kacperm.core8.profile.ProfileManager;
 import dev.kacperm.shared.SharedPlugin;
+import dev.kacperm.shared.listener.ProfileListener;
 import dev.kacperm.shared.mongo.MongoManager;
 import dev.kacperm.shared.utils.config.Config;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Arrays;
 
 @Getter
 public final class Core extends JavaPlugin implements SharedPlugin {
@@ -37,6 +40,8 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     @Override
     public void onDisable() {
+        this.profileManager.onDisable();
+
         instance = null;
     }
 
@@ -58,6 +63,8 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     @Override
     public void loadListeners() {
-
+        Arrays.asList(
+                new ProfileListener(this, profileManager)
+        ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 }
