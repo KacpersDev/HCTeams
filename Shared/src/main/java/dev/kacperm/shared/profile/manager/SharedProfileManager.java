@@ -34,6 +34,7 @@ public interface SharedProfileManager {
                 .lastLogout(document.getLong("lastLogout"))
                 .frozen(document.getBoolean("frozen"))
                 .staff(document.getBoolean("staff"))
+                .reclaimed(document.getBoolean("reclaimed"))
                 .firstJoin(document.getLong("firstJoin"))
                 .playTime(document.getLong("playTime")).build();
 
@@ -52,6 +53,7 @@ public interface SharedProfileManager {
         document.put("lastLogout", profile.getLastLogout());
         document.put("frozen", profile.isFrozen());
         document.put("staff", profile.isStaff());
+        document.put("reclaimed", profile.isReclaimed());
         document.put("firstJoin", profile.getFirstJoin());
         document.put("playTime", profile.getPlayTime());
 

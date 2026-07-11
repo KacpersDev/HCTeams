@@ -19,6 +19,7 @@ public class Profile {
 
     private boolean frozen;
     private boolean staff;
+    private boolean reclaimed;
 
     private long firstJoin;
     private long playTime;

@@ -40,6 +40,7 @@ public class ProfileListener implements Listener {
                     .lastLogout(0)
                     .frozen(false)
                     .staff(false)
+                    .reclaimed(false)
                     .firstJoin(new Date().getTime())
                     .playTime(0).build());
         } else {
