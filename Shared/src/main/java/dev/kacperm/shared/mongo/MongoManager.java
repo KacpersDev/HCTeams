@@ -11,12 +11,13 @@ import org.bson.Document;
 @Getter
 public class MongoManager {
 
-    private final MongoCollection<Document> profiles;
+    private final MongoCollection<Document> profiles, factions;
 
     public MongoManager(String uri, String database) {
         MongoClient mongoClient = MongoClients.create(new ConnectionString(uri));
         MongoDatabase mongoDatabase = mongoClient.getDatabase(database);
 
         this.profiles = mongoDatabase.getCollection("profiles");
+        this.factions = mongoDatabase.getCollection("factions");
     }
 }

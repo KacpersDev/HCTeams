@@ -1,5 +1,6 @@
 package dev.kacperm.core21;
 
+import dev.kacperm.core21.faction.FactionManager;
 import dev.kacperm.core21.profile.ProfileManager;
 import dev.kacperm.core21.scoreboard.ScoreboardManager;
 import dev.kacperm.shared.SharedPlugin;
@@ -27,6 +28,7 @@ public final class Core extends JavaPlugin implements SharedPlugin {
     private MongoManager mongoManager;
     private ProfileManager profileManager;
     private ScoreboardManager scoreboardManager;
+    private FactionManager factionManager;
 
     @Override
     public void onEnable() {
@@ -39,6 +41,9 @@ public final class Core extends JavaPlugin implements SharedPlugin {
                 getConfiguration().getConfiguration().getString("mongo.database"));
         this.profileManager = new ProfileManager();
         this.scoreboardManager = new ScoreboardManager();
+        this.factionManager = new FactionManager();
+
+        this.factionManager.onEnable();
 
         this.loadListeners();
         this.loadCommands();
@@ -47,7 +52,8 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     @Override
     public void onDisable() {
-        profileManager.onDisable();
+        this.profileManager.onDisable();
+        this.factionManager.onDisable();
 
         instance = null;
     }
