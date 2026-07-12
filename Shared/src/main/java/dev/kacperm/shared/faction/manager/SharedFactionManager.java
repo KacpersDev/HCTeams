@@ -7,12 +7,14 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import dev.kacperm.shared.faction.Faction;
 import dev.kacperm.shared.faction.PlayerFaction;
+import dev.kacperm.shared.faction.ServerFaction;
 import dev.kacperm.shared.faction.role.FactionRole;
 import dev.kacperm.shared.faction.type.FactionType;
 import dev.kacperm.shared.utils.location.FastLocation;
 import org.bson.Document;
 import org.bukkit.Location;
 
+import javax.print.Doc;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,8 +27,8 @@ public interface SharedFactionManager<T extends Faction> {
         Document document = factionsCollection().find(Filters.eq("name", name)).first();
         if (document == null) return Optional.empty();
 
+        UUID uuid = UUID.fromString(document.getString("uuid"));
         if (type.equals(FactionType.PLAYER)) {
-            UUID uuid = UUID.fromString(document.getString("uuid"));
             Map<UUID, FactionRole> members = new HashMap<>();
             document.getList("members", String.class).forEach(s ->
                     members.put(UUID.fromString(s.split(":")[0]), FactionRole.valueOf(s.split(":")[1].toUpperCase())));
@@ -41,6 +43,15 @@ public interface SharedFactionManager<T extends Faction> {
 
             PlayerFaction playerFaction = new PlayerFaction(uuid, name, FactionType.PLAYER, members, balance, points, deathsTillRaidable, home, claimCorners);
             return Optional.of((T) playerFaction);
+        } else if (type.equals(FactionType.SERVER)) {
+            boolean safeZone = document.getBoolean("safeZone");
+            Location[] claimCorners = new Location[]{
+                    FastLocation.fromString(document.getString("claimCornerFirst")),
+                    FastLocation.fromString(document.getString("claimCornerSecond"))
+            };
+
+            ServerFaction serverFaction = new ServerFaction(uuid, name, FactionType.SERVER, safeZone, claimCorners);
+            return Optional.of((T) serverFaction);
         }
 
         return Optional.empty();
@@ -65,6 +76,11 @@ public interface SharedFactionManager<T extends Faction> {
             document.put("hq", FastLocation.toString(playerFaction.getHq()));
             document.put("claimCornerFirst", FastLocation.toString(playerFaction.getClaimCorners()[0]));
             document.put("claimCornerSecond", FastLocation.toString(playerFaction.getClaimCorners()[1]));
+        } else if (faction instanceof ServerFaction) {
+            ServerFaction serverFaction = (ServerFaction) faction;
+            document.put("safeZone", serverFaction.isSafeZone());
+            document.put("claimCornerFirst", FastLocation.toString(serverFaction.getClaimCorners()[0]));
+            document.put("claimCornerSecond", FastLocation.toString(serverFaction.getClaimCorners()[1]));
         }
 
         factionsCollection().replaceOne(Filters.eq("uuid", faction.getUuid().toString()), document,
