@@ -1,3 +1,9 @@
 name: Core8
 version: '${version}'
 main: dev.kacperm.core8.Core8
+commands:
+  balance:
+    aliases:
+      - bal
+      - money
+      - eco

@@ -1,8 +1,10 @@
 package dev.kacperm.core8;
 
+import dev.kacperm.core8.command.BalanceCommand;
 import dev.kacperm.core8.profile.ProfileManager;
 import dev.kacperm.core8.scoreboard.ScoreboardManager;
 import dev.kacperm.shared.SharedPlugin;
+import dev.kacperm.shared.command.registrar.RegisterSimpleCommand;
 import dev.kacperm.shared.listener.ProfileListener;
 import dev.kacperm.shared.listener.ScoreboardListener;
 import dev.kacperm.shared.mongo.MongoManager;
@@ -65,6 +67,7 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     @Override
     public void loadCommands() {
+        new RegisterSimpleCommand<>(this, new BalanceCommand()).register();
     }
 
     @Override
