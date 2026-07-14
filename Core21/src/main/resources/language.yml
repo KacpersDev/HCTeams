@@ -1,0 +1,5 @@
+no-permissions: "<red>No Permissions"
+required-player: "<red>You must be a player in order to execute this command."
+
+balance:
+  balance: "<purple>Balance: <yellow>{balance}"

@@ -26,9 +26,6 @@ public class ScoreboardManager implements SharedScoreboardManager<FastBoard> {
         fastBoard.updateTitle(Color.translate(plugin.getConfiguration()
                 .getConfiguration().getString("scoreboard.title")));
         boards.put(player.getUniqueId(), fastBoard);
-
-        Bukkit.getConsoleSender().sendMessage("Scoreboard created... " +
-                boards.containsKey(player.getUniqueId()));
     }
 
     @Override
@@ -49,7 +46,5 @@ public class ScoreboardManager implements SharedScoreboardManager<FastBoard> {
         }
 
         fastBoard.updateLines(lines);
-
-        fastBoard.getLines().forEach(c -> Bukkit.getConsoleSender().sendMessage(c));
     }
 }

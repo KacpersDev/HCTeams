@@ -10,7 +10,7 @@ public class ScoreboardListener implements Listener {
 
     private final SharedScoreboardManager<?> sharedScoreboardManager;
 
-    public ScoreboardListener(SharedScoreboardManager sharedScoreboardManager) {
+    public ScoreboardListener(SharedScoreboardManager<?> sharedScoreboardManager) {
         this.sharedScoreboardManager = sharedScoreboardManager;
     }
 
