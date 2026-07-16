@@ -2,6 +2,7 @@ package dev.kacperm.core21;
 
 import dev.kacperm.core21.command.BalanceCommand;
 import dev.kacperm.core21.faction.FactionManager;
+import dev.kacperm.core21.messages.impl.BalanceCommandMessages;
 import dev.kacperm.core21.profile.ProfileManager;
 import dev.kacperm.core21.scoreboard.ScoreboardManager;
 import dev.kacperm.shared.SharedPlugin;
@@ -73,7 +74,7 @@ public final class Core extends JavaPlugin implements SharedPlugin {
 
     @Override
     public void loadCommands() {
-        new RegisterSimpleCommand<>(this, new BalanceCommand()).register();
+        new RegisterSimpleCommand<>(this, new BalanceCommand(new BalanceCommandMessages())).register();
     }
 
     @Override

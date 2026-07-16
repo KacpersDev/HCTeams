@@ -1,20 +1,21 @@
 package dev.kacperm.core21.command;
 
+import dev.kacperm.core21.Core;
 import dev.kacperm.shared.command.AdvancedSubCommand;
-import dev.kacperm.shared.command.AdvancedSubCommandBuilder;
 import dev.kacperm.shared.command.impl.SharedFactionCommand;
-import org.bukkit.entity.Player;
+import dev.kacperm.shared.command.messages.SharedFactionCommandMessages;
+import dev.kacperm.shared.faction.PlayerFaction;
+import dev.kacperm.shared.faction.manager.SharedFactionManager;
+import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class FactionCommand extends SharedFactionCommand {
 
-    @Override
-    public void usageMessage(Player player) {
+    private final Core plugin = Core.getInstance();
 
+    public FactionCommand(SharedFactionCommandMessages factionCommandMessages) {
+        super(factionCommandMessages);
     }
 
     @Override
@@ -33,13 +34,27 @@ public class FactionCommand extends SharedFactionCommand {
     }
 
     @Override
-    public Map<Set<String>, AdvancedSubCommand> advancedSubCommands() {
-        Map<String[], AdvancedSubCommand> map = new HashMap<>();
+    public Set<AdvancedSubCommand> advancedSubCommands() {
+        return Set.of();
+    }
 
-        AdvancedSubCommand advancedSubCommand = new AdvancedSubCommandBuilder(null, null, false).getAdvancedSubCommand();
+    @Override
+    public SharedFactionManager<PlayerFaction> sharedFactionManager() {
+        return plugin.getFactionManager();
+    }
 
-        map.put(new HashSet<>(Set.of("")), advancedSubCommand);
+    @Override
+    public void usageMessage(CommandSender sender) {
 
-        return map;
+    }
+
+    @Override
+    public void noPermissionMessage(CommandSender sender) {
+
+    }
+
+    @Override
+    public void requiredPlayerMessage(CommandSender sender) {
+
     }
 }

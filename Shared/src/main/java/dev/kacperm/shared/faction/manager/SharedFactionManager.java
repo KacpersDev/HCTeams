@@ -14,7 +14,6 @@ import dev.kacperm.shared.utils.location.FastLocation;
 import org.bson.Document;
 import org.bukkit.Location;
 
-import javax.print.Doc;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -105,5 +104,36 @@ public interface SharedFactionManager<T extends Faction> {
 
     default void onDisable() {
         factions().values().forEach(this::saveFaction);
+    }
+
+    default boolean factionExists(String teamName) {
+        for (T faction : factions().values()) {
+            if (faction.getName().equalsIgnoreCase(teamName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    default boolean hasFaction(UUID uniqueId) {
+        for (T faction : factions().values()) {
+            if (!faction.getType().equals(FactionType.PLAYER)) continue;
+            PlayerFaction playerFaction = (PlayerFaction) faction;
+
+            if (playerFaction.getMembers().containsKey(uniqueId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    default void createFaction(UUID leader, String name) {
+        Map<UUID, FactionRole> members = new HashMap<>();
+        members.put(leader, FactionRole.LEADER);
+
+        PlayerFaction playerFaction = new PlayerFaction(leader, name, FactionType.PLAYER, members, 0, 0, 0, null, null);
+        factions().put(UUID.randomUUID(), (T) playerFaction);
     }
 }

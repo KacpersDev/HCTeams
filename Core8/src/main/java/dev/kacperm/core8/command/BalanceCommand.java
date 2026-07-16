@@ -1,8 +1,8 @@
 package dev.kacperm.core8.command;
 
 import dev.kacperm.core8.Core;
-import dev.kacperm.core8.messages.Messages;
 import dev.kacperm.shared.command.impl.SharedBalanceCommand;
+import dev.kacperm.shared.command.messages.SharedBalanceCommandMessages;
 import dev.kacperm.shared.profile.Profile;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,6 +11,10 @@ import org.bukkit.entity.Player;
 public class BalanceCommand extends SharedBalanceCommand {
 
     private final Core plugin = Core.getInstance();
+
+    public BalanceCommand(SharedBalanceCommandMessages balanceCommandMessages) {
+        super(balanceCommandMessages);
+    }
 
     @Override
     public String name() {
@@ -42,20 +46,6 @@ public class BalanceCommand extends SharedBalanceCommand {
         return plugin.getProfileManager().getProfiles().get(player.getUniqueId());
     }
 
-    @Override
-    public void noPermissionsMessage(Player player) {
-        player.sendMessage(Messages.NO_PERMISSIONS);
-    }
-
-    @Override
-    public void requiredPlayerMessage(CommandSender sender) {
-        sender.sendMessage(Messages.REQUIRED_PLAYER);
-    }
-
-    @Override
-    public void balanceMessage(Player player, long balance) {
-        player.sendMessage(Messages.BALANCE.replace("{balance}", String.valueOf(balance)));
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
