@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import dev.kacperm.core21.Core;
 import dev.kacperm.shared.faction.PlayerFaction;
 import dev.kacperm.shared.faction.manager.SharedFactionManager;
+import dev.kacperm.shared.profile.Profile;
 import org.bson.Document;
 
 import java.util.HashMap;
@@ -21,7 +22,17 @@ public class FactionManager implements SharedFactionManager<PlayerFaction> {
     }
 
     @Override
+    public Map<UUID, Profile> profiles() {
+        return plugin.getFactionManager().profiles();
+    }
+
+    @Override
     public MongoCollection<Document> factionsCollection() {
         return plugin.getMongoManager().getFactions();
+    }
+
+    @Override
+    public MongoCollection<Document> profilesCollection() {
+        return plugin.getMongoManager().getProfiles();
     }
 }

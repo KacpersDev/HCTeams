@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -19,6 +21,8 @@ public class PlayerFaction extends Faction {
     private double deathsTillRaidable;
     private Location hq;
     private Location[] claimCorners;
+
+    private Set<UUID> invitedPlayers = new HashSet<>();
 
     public PlayerFaction(UUID uuid, String name, FactionType type, Map<UUID, FactionRole> members, int balance, int points, double deathsTillRaidable, Location hq, Location[] claimCorners) {
         super(uuid, name, type);

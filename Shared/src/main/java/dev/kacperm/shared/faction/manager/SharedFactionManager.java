@@ -5,14 +5,18 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
+import com.mongodb.client.model.Updates;
 import dev.kacperm.shared.faction.Faction;
 import dev.kacperm.shared.faction.PlayerFaction;
 import dev.kacperm.shared.faction.ServerFaction;
 import dev.kacperm.shared.faction.role.FactionRole;
 import dev.kacperm.shared.faction.type.FactionType;
+import dev.kacperm.shared.profile.Profile;
 import dev.kacperm.shared.utils.location.FastLocation;
 import org.bson.Document;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -20,7 +24,10 @@ import java.util.concurrent.CompletableFuture;
 public interface SharedFactionManager<T extends Faction> {
 
     Map<UUID, T> factions();
+    Map<UUID, Profile> profiles();
+
     MongoCollection<Document> factionsCollection();
+    MongoCollection<Document> profilesCollection();
 
     default Optional<T> loadFaction(String name, FactionType type) {
         Document document = factionsCollection().find(Filters.eq("name", name)).first();
@@ -135,5 +142,46 @@ public interface SharedFactionManager<T extends Faction> {
 
         PlayerFaction playerFaction = new PlayerFaction(leader, name, FactionType.PLAYER, members, 0, 0, 0, null, null);
         factions().put(UUID.randomUUID(), (T) playerFaction);
+    }
+
+    default Optional<PlayerFaction> getFactionByPlayer(UUID uniqueId) {
+        for (T faction : factions().values()) {
+            if (!faction.getType().equals(FactionType.PLAYER)) continue;
+
+            PlayerFaction playerFaction = (PlayerFaction) faction;
+            if (playerFaction.getMembers().containsKey(uniqueId)) {
+                return Optional.of(playerFaction);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    default void disbandFaction(T playerFaction) {
+        if (playerFaction instanceof PlayerFaction) {
+            PlayerFaction faction = (PlayerFaction) playerFaction;
+            Set<UUID> members = faction.getMembers().keySet();
+            factions().remove(faction.getUuid());
+
+            for (UUID uuid : members) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player != null && player.isOnline()) {
+                    profiles().get(player.getUniqueId()).setTeam(null);
+                }
+
+                profilesCollection().updateMany(Filters.in("uuid", uuid.toString()),
+                        Updates.set("faction", null));
+            }
+        }
+    }
+
+    default Optional<Faction> getUnknownFaction(String factionName) {
+        for (Faction faction : factions().values()) {
+            if (faction.getName().equalsIgnoreCase(factionName)) {
+                return Optional.of(faction);
+            }
+        }
+
+        return Optional.empty();
     }
 }

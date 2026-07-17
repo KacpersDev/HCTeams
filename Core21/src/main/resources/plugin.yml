@@ -8,3 +8,8 @@ commands:
       - bal
       - money
       - eco
+  faction:
+    aliases:
+      - f
+      - team
+      - t

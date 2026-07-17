@@ -6,6 +6,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Color {
 
     public static Component translate(String vanillaMessage) {
@@ -16,6 +19,15 @@ public class Color {
         } else {
             return MiniMessage.miniMessage().deserialize(vanillaMessage).decoration(TextDecoration.ITALIC, false);
         }
+    }
+
+    public static List<Component> translateList(List<String> vanillaMessages) {
+        List<Component> components = new ArrayList<>();
+        for (String vanillaMessage : vanillaMessages) {
+            components.add(translate(vanillaMessage));
+        }
+
+        return components;
     }
 
     @SuppressWarnings("deprecation")

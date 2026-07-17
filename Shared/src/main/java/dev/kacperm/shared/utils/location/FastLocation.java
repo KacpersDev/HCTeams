@@ -20,6 +20,8 @@ public class FastLocation {
     }
 
     public static String toString(Location location) {
+        if (location.getWorld() == null) return null;
+
         return location.getWorld().getName() + ":"
                 + location.getBlockX() + ":" + location.getBlockY() + ":" + location.getBlockZ()
                 + location.getYaw() + ":" + location.getPitch();

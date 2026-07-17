@@ -3,3 +3,13 @@ required-player: "<red>You must be a player in order to execute this command."
 
 balance:
   balance: "<purple>Balance: <yellow>{balance}"
+
+faction:
+  usage:
+    - ""
+    - "&c/faction create <name>"
+    - "&c/faction disband <name>"
+    - "&c/faction show <name>"
+    - ""
+  created: "&eTeam &b{faction} &ehas been &acreated &eby &6{leader}"
+  deleted: "&eTeam &b{faction} &ehas been &ccreated &eby &6{leader}"
