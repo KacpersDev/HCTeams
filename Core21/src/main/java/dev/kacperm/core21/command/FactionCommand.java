@@ -42,19 +42,4 @@ public class FactionCommand extends SharedFactionCommand {
     public SharedFactionManager<PlayerFaction> sharedFactionManager() {
         return plugin.getFactionManager();
     }
-
-    @Override
-    public void usageMessage(CommandSender sender) {
-
-    }
-
-    @Override
-    public void noPermissionMessage(CommandSender sender) {
-
-    }
-
-    @Override
-    public void requiredPlayerMessage(CommandSender sender) {
-
-    }
 }
