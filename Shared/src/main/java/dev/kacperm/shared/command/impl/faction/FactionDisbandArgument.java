@@ -36,7 +36,7 @@ public class FactionDisbandArgument implements CommandArgument {
         PlayerFaction playerFaction = optionalPlayerFaction.get();
 
         if (!playerFaction.getMembers().get(player.getUniqueId()).equals(FactionRole.LEADER)) {
-            factionCommandMessages.notLeader();
+            factionCommandMessages.notLeader(sender);
             return;
         }
 

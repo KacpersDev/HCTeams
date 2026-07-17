@@ -16,9 +16,9 @@ import java.util.Set;
 public class FactionShowArgument implements CommandArgument {
 
     private final SharedFactionCommandMessages sharedFactionCommandMessages;
-    private final SharedFactionManager sharedFactionManager;
+    private final SharedFactionManager<?> sharedFactionManager;
 
-    public FactionShowArgument(SharedFactionCommandMessages sharedFactionCommandMessages, SharedFactionManager sharedFactionManager) {
+    public FactionShowArgument(SharedFactionCommandMessages sharedFactionCommandMessages, SharedFactionManager<?> sharedFactionManager) {
         this.sharedFactionCommandMessages = sharedFactionCommandMessages;
         this.sharedFactionManager = sharedFactionManager;
     }
@@ -36,16 +36,16 @@ public class FactionShowArgument implements CommandArgument {
         Optional<Faction> optionalFaction = sharedFactionManager.getUnknownFaction(factionName);
 
         if (!optionalFaction.isPresent()) {
-            sharedFactionCommandMessages.noFaction(factionName);
+            sharedFactionCommandMessages.noFaction(sender, factionName);
             return;
         }
 
         Faction faction = optionalFaction.get();
         if (faction instanceof PlayerFaction) {
-            sharedFactionCommandMessages.playerFactionShow((PlayerFaction) faction);
+            sharedFactionCommandMessages.playerFactionShow(sender, (PlayerFaction) faction);
             return;
         }
 
-        sharedFactionCommandMessages.factionShow(faction);
+        sharedFactionCommandMessages.factionShow(sender, faction);
     }
 }

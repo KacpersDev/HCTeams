@@ -19,19 +19,17 @@ public class PlayerFaction extends Faction {
     private int balance;
     private int points;
     private double deathsTillRaidable;
-    private Location hq;
     private Location[] claimCorners;
 
     private Set<UUID> invitedPlayers = new HashSet<>();
 
-    public PlayerFaction(UUID uuid, String name, FactionType type, Map<UUID, FactionRole> members, int balance, int points, double deathsTillRaidable, Location hq, Location[] claimCorners) {
-        super(uuid, name, type);
+    public PlayerFaction(UUID uuid, String name, FactionType type, Location location, Map<UUID, FactionRole> members, int balance, int points, double deathsTillRaidable, Location[] claimCorners) {
+        super(uuid, name, type, location);
 
         this.members = members;
         this.balance = balance;
         this.points = points;
         this.deathsTillRaidable = deathsTillRaidable;
-        this.hq = hq;
         this.claimCorners = claimCorners;
     }
 }

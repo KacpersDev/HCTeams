@@ -41,13 +41,13 @@ public interface SharedFactionManager<T extends Faction> {
             int balance = document.getInteger("balance");
             int points = document.getInteger("points");
             double deathsTillRaidable = document.getDouble("deathsTillRaidable");
-            Location home = FastLocation.fromString(document.getString("hq"));
+            Location home = FastLocation.fromString(document.getString("location"));
             Location[] claimCorners = new Location[]{
                     FastLocation.fromString(document.getString("claimCornerFirst")),
                     FastLocation.fromString(document.getString("claimCornerSecond"))
             };
 
-            PlayerFaction playerFaction = new PlayerFaction(uuid, name, FactionType.PLAYER, members, balance, points, deathsTillRaidable, home, claimCorners);
+            PlayerFaction playerFaction = new PlayerFaction(uuid, name, FactionType.PLAYER, home, members, balance, points, deathsTillRaidable, claimCorners);
             return Optional.of((T) playerFaction);
         } else if (type.equals(FactionType.SERVER)) {
             boolean safeZone = document.getBoolean("safeZone");
@@ -55,8 +55,9 @@ public interface SharedFactionManager<T extends Faction> {
                     FastLocation.fromString(document.getString("claimCornerFirst")),
                     FastLocation.fromString(document.getString("claimCornerSecond"))
             };
+            Location location = FastLocation.fromString(document.getString("location"));
 
-            ServerFaction serverFaction = new ServerFaction(uuid, name, FactionType.SERVER, safeZone, claimCorners);
+            ServerFaction serverFaction = new ServerFaction(uuid, name, FactionType.SERVER, location, safeZone, claimCorners);
             return Optional.of((T) serverFaction);
         }
 
@@ -68,6 +69,7 @@ public interface SharedFactionManager<T extends Faction> {
         document.put("uuid", faction.getUuid().toString());
         document.put("name", faction.getName());
         document.put("type", faction.getType());
+        document.put("location", FastLocation.toString(faction.getLocation()));
 
         if (faction instanceof PlayerFaction) {
             PlayerFaction playerFaction = (PlayerFaction) faction;
@@ -79,7 +81,6 @@ public interface SharedFactionManager<T extends Faction> {
             document.put("balance", playerFaction.getBalance());
             document.put("points", playerFaction.getPoints());
             document.put("deathsTillRaidable", playerFaction.getDeathsTillRaidable());
-            document.put("hq", FastLocation.toString(playerFaction.getHq()));
             document.put("claimCornerFirst", FastLocation.toString(playerFaction.getClaimCorners()[0]));
             document.put("claimCornerSecond", FastLocation.toString(playerFaction.getClaimCorners()[1]));
         } else if (faction instanceof ServerFaction) {
@@ -140,7 +141,7 @@ public interface SharedFactionManager<T extends Faction> {
         Map<UUID, FactionRole> members = new HashMap<>();
         members.put(leader, FactionRole.LEADER);
 
-        PlayerFaction playerFaction = new PlayerFaction(leader, name, FactionType.PLAYER, members, 0, 0, 0, null, null);
+        PlayerFaction playerFaction = new PlayerFaction(leader, name, FactionType.PLAYER, null, members, 0, 0, 0, null);
         factions().put(UUID.randomUUID(), (T) playerFaction);
     }
 

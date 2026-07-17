@@ -9,14 +9,11 @@ import dev.kacperm.shared.command.impl.faction.FactionShowArgument;
 import dev.kacperm.shared.command.messages.SharedFactionCommandMessages;
 import dev.kacperm.shared.faction.PlayerFaction;
 import dev.kacperm.shared.faction.manager.SharedFactionManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
 import java.util.Optional;
-import java.util.Set;
 
 public abstract class SharedFactionCommand extends AdvancedSharedCommand {
 

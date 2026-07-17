@@ -34,12 +34,12 @@ public class FactionCreateArgument implements CommandArgument {
             String teamName = args[1];
 
             if (this.sharedFactionManager.factionExists(teamName)) {
-                factionCommandMessages.factionExists(teamName);
+                factionCommandMessages.factionExists(player, teamName);
                 return;
             }
 
             if (this.sharedFactionManager.hasFaction(player.getUniqueId())) {
-                factionCommandMessages.hasFaction();
+                factionCommandMessages.hasFaction(player);
                 return;
             }
 

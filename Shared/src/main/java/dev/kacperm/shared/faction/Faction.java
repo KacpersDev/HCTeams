@@ -3,6 +3,7 @@ package dev.kacperm.shared.faction;
 import dev.kacperm.shared.faction.type.FactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.bukkit.Location;
 
 import java.util.UUID;
 
@@ -13,4 +14,5 @@ public class Faction {
     private UUID uuid;
     private String name;
     private FactionType type;
+    private Location location;
 }
